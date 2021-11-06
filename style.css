@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: 62.5%;
+}
+
+body {
+  height: 100vh;
+  background-color: #000;
+}
+
+header {
+  height: 5vh;
+  text-align: center;
+  font-family: Roboto, sans-serif;
+  color: #fff;
+}
+
+.game {
+  height: 95vh;
+}
+
+.game {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  place-items: center;
+}
+
+.case {
+  height: 5rem;
+  width: 5rem;
+  background-color: #ff0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.touched {
+  background-color: #0f0;
+}
+
+.flag {
+  background-color: #f00;
+}
