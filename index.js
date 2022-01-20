@@ -1,23 +1,34 @@
 const allGamePieces = document.querySelectorAll('.case');
+const bombDifficulty = 25;
+let gameArray = [];
 
 const genGameArray = (longueur, largeur) => {
   const arr = [];
   const total = longueur * largeur;
-  const bombDifficulty = 12;
 
   for (let i = 0; i < total; i++) {
-    const random = Math.round(Math.random() * total);
-    if (random <= bombDifficulty) {
-      arr.push({ touched: false, flag: false, bomb: true });
-    } else {
-      arr.push({ touched: false, flag: false, bomb: false });
-    }
+    arr.push({ touched: false, flag: false, bomb: false });
   }
 
   return arr;
 };
 
-let gameArray = genGameArray(10, 10);
+gameArray = genGameArray(10, 10);
+
+const addBombs = (longueur, largeur, bombDifficulty) => {
+  const total = longueur * largeur;
+  let i;
+  for (i = 0; i < bombDifficulty; i++) {
+    const random = Math.round(Math.random() * total);
+    if (!gameArray[random].bomb) {
+      gameArray[random].bomb = true;
+    } else {
+      --i;
+    }
+  }
+};
+
+addBombs(10, 10, bombDifficulty);
 
 const bombMap = () => {
   gameArray.map((status, index) => {
@@ -27,23 +38,48 @@ const bombMap = () => {
   });
 };
 
-bombMap();
+// bombMap();
 
 const getElementAround = (index, largeur) => {
   const arr = [];
-  arr.push(gameArray[index - largeur - 1]);
-  arr.push(gameArray[index - largeur]);
-  arr.push(gameArray[index - largeur + 1]);
 
-  arr.push(gameArray[index - 1]);
-  arr.push(gameArray[index]);
-  arr.push(gameArray[index + 1]);
+  if (index % 10 === 0) {
+    arr.push(0);
+    arr.push(gameArray[index - largeur]);
+    arr.push(gameArray[index - largeur + 1]);
 
-  arr.push(gameArray[index + largeur - 1]);
-  arr.push(gameArray[index + largeur]);
-  arr.push(gameArray[index + largeur + 1]);
+    arr.push(0);
+    arr.push(gameArray[index]);
+    arr.push(gameArray[index + 1]);
 
-  console.log(arr);
+    arr.push(0);
+    arr.push(gameArray[index + largeur]);
+    arr.push(gameArray[index + largeur + 1]);
+  } else if (index % 10 === 9) {
+    arr.push(gameArray[index - largeur - 1]);
+    arr.push(gameArray[index - largeur]);
+    arr.push(0);
+
+    arr.push(gameArray[index - 1]);
+    arr.push(gameArray[index]);
+    arr.push(0);
+
+    arr.push(gameArray[index + largeur - 1]);
+    arr.push(gameArray[index + largeur]);
+    arr.push(0);
+  } else {
+    arr.push(gameArray[index - largeur - 1]);
+    arr.push(gameArray[index - largeur]);
+    arr.push(gameArray[index - largeur + 1]);
+
+    arr.push(gameArray[index - 1]);
+    arr.push(gameArray[index]);
+    arr.push(gameArray[index + 1]);
+
+    arr.push(gameArray[index + largeur - 1]);
+    arr.push(gameArray[index + largeur]);
+    arr.push(gameArray[index + largeur + 1]);
+  }
 
   return arr;
 };
@@ -68,7 +104,7 @@ const resetGame = () => {
   });
   gameArray = genGameArray(10, 10);
 
-  bombMap();
+  // bombMap();
 };
 
 allGamePieces.forEach((element, index) => {
@@ -88,6 +124,7 @@ allGamePieces.forEach((element, index) => {
       }
     }
   });
+
   element.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     gameArray[index].flag = !gameArray[index].flag;
@@ -95,6 +132,7 @@ allGamePieces.forEach((element, index) => {
       element.innerHTML = '<i class="far fa-flag"></i>';
     } else {
       element.innerHTML = '';
+      // bombMap();
     }
   });
 });
