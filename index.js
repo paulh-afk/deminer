@@ -97,12 +97,17 @@ const getBombNumberAround = (index, largeur) => {
 };
 
 const resetGame = () => {
-  alert('Vous avez touchez une bombe, le jeu recommence !');
-  allGamePieces.forEach((element, index) => {
-    element.innerHTML = '';
-    element.classList.remove('touched');
-  });
-  gameArray = genGameArray(10, 10);
+  bombMap();
+  setTimeout(() => {
+    alert('Vous avez touchez une bombe, le jeu recommence !');
+    allGamePieces.forEach((element, index) => {
+      element.innerHTML = '';
+      element.classList.remove('touched');
+    });
+    gameArray = genGameArray(10, 10);
+    addBombs(10, 10, bombDifficulty);
+  }, 2500)
+  
 
   // bombMap();
 };
@@ -116,6 +121,8 @@ allGamePieces.forEach((element, index) => {
       element.classList.add('touched');
 
       const bombNumber = getBombNumberAround(index, 10);
+
+      // func
       if (gameArray) {
         element.innerHTML = bombNumber;
       }
