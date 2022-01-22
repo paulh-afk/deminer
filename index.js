@@ -38,7 +38,7 @@ const bombMap = () => {
   });
 };
 
-// bombMap();
+bombMap();
 
 const getElementAround = (index, largeur) => {
   const arr = [];
@@ -115,11 +115,48 @@ const resetGame = () => {
   // bombMap();
 };
 
-// const extendCase = (index) => {
-//   const bombNumber = getBombNumberAround(index, 10);
-//   if (!bombNumber) {
-//   }
-// };
+const extendCase = (index) => {
+  // extend
+  // top
+  let topIndex = index - 10;
+  if (!(topIndex < 0)) {
+    while (!getBombNumberAround(topIndex, 10)) {
+      console.log('top ok');
+
+      gameArray[topIndex].touched = true;
+      allGamePieces[topIndex].classList.add('touched');
+      allGamePieces[topIndex].innerHTML = getBombNumberAround(topIndex, 10);
+
+      topIndex -= 10;
+
+      if (topIndex < 0) {
+        break;
+      }
+    }
+  }
+
+  // right
+
+  // bottom
+  let botIndex = index + 10;
+  if (!(botIndex > 100)) {
+    while (!getBombNumberAround(botIndex, 10)) {
+      console.log('bot ok');
+
+      gameArray[botIndex].touched = true;
+      allGamePieces[botIndex].classList.add('touched');
+      allGamePieces[botIndex].innerHTML = getBombNumberAround(botIndex, 10);
+
+      botIndex += 10;
+
+      if (botIndex > 100) {
+        break;
+      }
+    }
+  }
+
+  // left
+};
 
 const win = () => {
   const bombsFlag = gameArray.filter((status) => {
@@ -140,6 +177,10 @@ allGamePieces.forEach((element, index) => {
       element.classList.add('touched');
 
       const bombNumber = getBombNumberAround(index, 10);
+
+      if (!bombNumber) {
+        extendCase(index);
+      }
 
       if (gameArray) {
         element.innerHTML = bombNumber;
