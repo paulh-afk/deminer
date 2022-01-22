@@ -1,5 +1,5 @@
 const allGamePieces = document.querySelectorAll('.case');
-const bombDifficulty = 25;
+const bombDifficulty = 13;
 let gameArray = [];
 
 const genGameArray = (longueur, largeur) => {
@@ -99,17 +99,36 @@ const getBombNumberAround = (index, largeur) => {
 const resetGame = () => {
   bombMap();
   setTimeout(() => {
-    alert('Vous avez touchez une bombe, le jeu recommence !');
+    if (win()) {
+      alert('Bienjoué vous avez trouver toutes les bombes, le jeu recommence !');
+    } else {
+      alert('Vous avez touchez une bombe, le jeu recommence !');
+    }
     allGamePieces.forEach((element, index) => {
       element.innerHTML = '';
       element.classList.remove('touched');
     });
     gameArray = genGameArray(10, 10);
     addBombs(10, 10, bombDifficulty);
-  }, 2500)
-  
+  }, 2500);
 
   // bombMap();
+};
+
+// const extendCase = (index) => {
+//   const bombNumber = getBombNumberAround(index, 10);
+//   if (!bombNumber) {
+//   }
+// };
+
+const win = () => {
+  const bombsFlag = gameArray.filter((status) => {
+    return status.bomb === true && status.flag === true;
+  }).length;
+  if (bombsFlag === bombDifficulty) {
+    return true;
+  }
+  return false;
 };
 
 allGamePieces.forEach((element, index) => {
@@ -122,7 +141,6 @@ allGamePieces.forEach((element, index) => {
 
       const bombNumber = getBombNumberAround(index, 10);
 
-      // func
       if (gameArray) {
         element.innerHTML = bombNumber;
       }
@@ -140,6 +158,9 @@ allGamePieces.forEach((element, index) => {
     } else {
       element.innerHTML = '';
       // bombMap();
+    }
+    if (win()) {
+      resetGame();
     }
   });
 });
