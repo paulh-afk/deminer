@@ -38,8 +38,6 @@ const bombMap = () => {
   });
 };
 
-bombMap();
-
 const getElementAround = (index, largeur) => {
   const arr = [];
 
@@ -97,10 +95,9 @@ const getBombNumberAround = (index, largeur) => {
 };
 
 const resetGame = () => {
-  bombMap();
   setTimeout(() => {
     if (win()) {
-      alert('Bienjoué vous avez trouver toutes les bombes, le jeu recommence !');
+      alert('Bien joué vous avez trouver toutes les bombes, le jeu recommence !');
     } else {
       alert('Vous avez touchez une bombe, le jeu recommence !');
     }
@@ -110,9 +107,9 @@ const resetGame = () => {
     });
     gameArray = genGameArray(10, 10);
     addBombs(10, 10, bombDifficulty);
-  }, 2500);
+  }, 300);
 
-  // bombMap();
+  bombMap();
 };
 
 const extendCase = (index) => {
@@ -198,7 +195,6 @@ allGamePieces.forEach((element, index) => {
       element.innerHTML = '<i class="far fa-flag"></i>';
     } else {
       element.innerHTML = '';
-      // bombMap();
     }
     if (win()) {
       resetGame();
